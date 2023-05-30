@@ -12,13 +12,23 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-"""
-    Serializer para POST y PUT
+""" 
+Ejemplo de JSON
 
-    Ejemplo de JSON a enviar en POST / PUT:
-        {
-            "product": "Leche",
-            "price": 3,
-            "description": "Me encantó la película"
-        }
+GET:
+{
+  "product": "Yogurt LAIVE",
+  "brand": "LAIVE",
+  "price": 12,
+  "description": "gurt con cultivos probióticos"
+}
+
+POST / PUT:
+
+{
+    "product": "Leche",
+    "price": 3,
+    "description": "Me encantó la película"
+}
+
 """

@@ -1,4 +1,8 @@
 # (1) views.py
+from rest_framework.parsers import MultiPartParser, FormParser  # img
+
+from django.shortcuts import get_object_or_404  # hoy
+
 
 from django.shortcuts import render
 
@@ -24,8 +28,8 @@ class ProtectedView(APIView):
 
 
 class ProductListView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         products = Product.objects.all()
@@ -41,13 +45,29 @@ class ProductListView(APIView):
 
 
 class ProductDetailView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]  # img
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
-    def get(self, request, pk):
-        product = self.get_object(pk)
-        serializer = ProductSerializer(product)
-        return Response(serializer.data)
+    # def get_object(self, pk_product):
+    #     return get_object_or_404(Product, pk=pk_product)
+
+    def get(self, request, pk_product=None):
+        if pk_product:
+            product = get_object_or_404(Product, pk=pk_product)
+            serializer = ProductSerializer(product)
+            return Response(serializer.data)
+        else:
+            products = Product.objects.all()
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk):
         product = self.get_object(pk)
@@ -57,10 +77,13 @@ class ProductDetailView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
-        product = self.get_object(pk)
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, pk_product=None):
+        if pk_product:
+            product = get_object_or_404(Product, pk=pk_product)
+            product.delete()
+            return Response({"msg": f"Producto con ID {pk_product} ha sido eliminado"})
+        else:
+            return Response({"msg": "Necesitas enviar el ID del producto a eliminar"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 """"
@@ -69,5 +92,12 @@ Paso 5:
 . Creando una vista PROTEGIDA:
   _ Para solo mostrar al dueño del proveerdor, el desorrollador, etc.
     . Para ver la lista de ventas, etc.
+    
+    
+. class ProtectedView:
+_ solicitud GET para la ruta 'products/'. Devuelve todos los productos 
+almacenados en la base de datos en formato JSON.
+
+. class ProductDetailView
 
 """
