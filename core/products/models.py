@@ -14,7 +14,7 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True)
 
     image = models.FileField(upload_to='products/',
-                             max_length=255, null=True, blank=True)
+                             null=True, blank=True)
 
     # image = models.ImageField()
     class Meta:

@@ -1,8 +1,7 @@
 # (1) views.py
 from rest_framework.parsers import MultiPartParser, FormParser  # img
 
-from django.shortcuts import get_object_or_404  # hoy
-
+from django.shortcuts import get_object_or_404  # hoy -> id
 
 from django.shortcuts import render
 
@@ -45,22 +44,20 @@ class ProductListView(APIView):
 
 
 class ProductDetailView(APIView):
-    parser_classes = [MultiPartParser, FormParser]  # img
+    # parser_classes = [MultiPartParser, FormParser]  # img | trae errorres en GUT
     # authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAuthenticated]
 
-    # def get_object(self, pk_product):
-    #     return get_object_or_404(Product, pk=pk_product)
-
-    def get(self, request, pk_product=None):
-        if pk_product:
-            product = get_object_or_404(Product, pk=pk_product)
+    def get(self, request, pk=None):
+        if pk:
+            product = get_object_or_404(Product, pk=pk)
             serializer = ProductSerializer(product)
             return Response(serializer.data)
         else:
             products = Product.objects.all()
-            serializer = ProductSerializer(products, many=True)
-            return Response(serializer.data)
+
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
         serializer = ProductSerializer(data=request.data)
@@ -69,21 +66,22 @@ class ProductDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, pk):
-        product = self.get_object(pk)
+    def put(self, request, pk=None):
+        product = get_object_or_404(Product, pk=pk)
         serializer = ProductSerializer(product, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk_product=None):
-        if pk_product:
-            product = get_object_or_404(Product, pk=pk_product)
-            product.delete()
-            return Response({"msg": f"Producto con ID {pk_product} ha sido eliminado"})
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response({"msg": "Necesitas enviar el ID del producto a eliminar"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk=None):
+        if pk:
+            product = get_object_or_404(Product, pk=pk)
+            product.delete()
+            return Response({"msg": f"Producto con ID {pk} ha sido eliminado"})
+        else:
+            return Response({"msg": "Necesitas enviar el ID {pk} del producto a eliminar"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 """"
