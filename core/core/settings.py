@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     # App instaladas, despues pueder CORRER (python manage.py runserver):
     'authentication',
     'products',
+    'cart',
+    'orders',
+    'feedback',
+    'sellers',
 ]
 
 MIDDLEWARE = [

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from django.contrib.auth.admin import UserAdmin
 
-from .models import CustomUser
+from .models import CustomUser, Profile, ProfileType
 
 # Register your models here.
 
@@ -18,7 +18,7 @@ class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
     search_fields = ('id', 'first_name', 'last_name', 'email', 'phone_number')
 
     date_hierarchy = 'date_joined'  # Para que aparesca PRIMERO LOS USUARIOS.
-    
+
     ordering = ('-id',)
 
     fieldsets = (
@@ -37,4 +37,8 @@ class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
         ),
     )
 
+
 admin.site.register(CustomUser, CustomUserAdmin)
+
+admin.site.register(ProfileType)
+admin.site.register(Profile)
