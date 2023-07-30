@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Aplicaciones INSTALADAS y migrar de nuevo:
+    # Aplicaciones INSTALAD S y migrar de nuevo:
     'rest_framework',
     'rest_framework.authtoken',
 

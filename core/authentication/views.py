@@ -45,7 +45,7 @@ class LoginView(APIView):
             return Response(
                 {
                     "error": "401 Unauthorized",
-                    "message": "The credentiales provided are not valid. Please review your information and try again."
+                    "message": "Las credenciales proporcionadas no son válidas. Por favor revise su información y vuelva a intentarlo."
                 },
                 status=status.HTTP_401_UNAUTHORIZED)
 
@@ -90,14 +90,14 @@ class LogoutView(APIView):
             return Response(
                 {
                     "status": "200 OK",
-                    "message": "You have successfully logged out"
+                    "message": "Has terminado tu sesion satisfactoriamente"
                 }
             )
         except Token.DoesNotExist:
             return Response(
                 {
                     "error": "401 Unauthorized",
-                    "message": "Unassociated token for the user"
+                    "message": "Token no asociado para el usuario"
                 }, status=status.HTTP_401_UNAUTHORIZED
             )
 
@@ -124,7 +124,7 @@ _ Clase para el registro de usuarios.
 _ Se utiliza para registrar nuevos usuarios en el sistema.
 _ [urls.py] -> path('signup/', SignUpView.as_view(), name='signup'),
 
-3. class LogoutView: 
+3. class LogoutView:
 
 _ Se utiliza para manejar la funcionalidad de cierre de sesión en una API:
 _ [urls.py] -> path('logout/', LogoutView.as_view(), name='logout'),

@@ -15,7 +15,7 @@ __ RETO: Revisar como haciendo una modificaion al MODELO authentication,
    . Como puedes detectar quien es un comprador y quien es un vendedor.
    . Oh como alguien va ser un vendedor:
      _ Que datos se necesitaran para que sea un vendedor.
-   
+
 =====
 . Codigo del 13 de Mayo - x Mayo | New Project:
 
@@ -35,13 +35,13 @@ _ Desde Consola:
 . Paso 1 -> Crear el ENTORNO VIRTUAL -> venv:
 _ comando -> [python3 -m venv venv], se crear la carpeta -> [venv]
 
-----)()
+----)() ---- Puede cer el paso 1: ()( ---
 . Paso 2 -> activar el modo virtual en consola:
 . comando -> [source venv/bin/activate]
-----)()
+----)() ------------------------- ()( ---
 
 #---------------------------------------------------------------
-                    Django o Flask, etc
+            Django o Flask, INSTAKLANDO LAS DEPENDENCIAS
 #---------------------------------------------------------------
 
 . Paso 3 -> Instalar Django:
