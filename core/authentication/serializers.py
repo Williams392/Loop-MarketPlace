@@ -19,6 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True, write_only=True)
+    phone_number = serializers.CharField(required=True)
+    profile_type = serializers.CharField(required=True, write_only=True)
     # phone_number = serializers.CharField(required=True)
 
     # Yo MEJORE, Personalizado:
@@ -39,6 +41,12 @@ class UserSerializer(serializers.ModelSerializer):
 
         # Cada uno, PERSONALIZADO mostrar:
         # fields = ('id', 'email', 'is_staff', 'password', 'first_name','last_name')
+
+    def create(self, validated_data):
+        print("Creando un usuario")
+        # Eliminar el campo profile_type si existe
+        profile_type = validated_data.pop('profile_type', None)
+        return super().create(validated_data), profile_type
 
 
 """

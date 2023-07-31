@@ -31,6 +31,9 @@ class ProfileType(models.Model):
     """
     profile_type = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.profile_type
+
 
 class Profile(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
